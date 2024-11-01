@@ -1,0 +1,142 @@
+[
+  {
+    "id": "0x7e6db518796109c1a3fdaf38732c173016906095",
+    "inputTokens": [
+      {
+        "id": "0x0e0471ed542f85979c18c25d81887a7c367fe859",
+        "symbol": "Mental Health is Wealth"
+      },
+      {
+        "id": "0x4200000000000000000000000000000000000006",
+        "symbol": "WETH"
+      }
+    ],
+    "totalValueLockedUSD": "0"
+  },
+  {
+    "id": "0x534358463a22b3cbfc4d29c45611d87071abb656",
+    "inputTokens": [
+      {
+        "id": "0x4200000000000000000000000000000000000006",
+        "symbol": "WETH"
+      },
+      {
+        "id": "0xb2fab1887e9c5b4edcfac962d95258014185393a",
+        "symbol": "$JSTF"
+      }
+    ],
+    "totalValueLockedUSD": "0"
+  },
+  {
+    "id": "0x2794d2703efdfad4a9a40484922bac547768fc24",
+    "inputTokens": [
+      {
+        "id": "0x2e840cf006e5fb31c4832aeee31c9ea1966400bd",
+        "symbol": "cPEPE"
+      },
+      {
+        "id": "0x4200000000000000000000000000000000000006",
+        "symbol": "WETH"
+      }
+    ],
+    "totalValueLockedUSD": "25.7478879702560958379939"
+  },
+  {
+    "id": "0xa1052400cb6eb7fc94693d4e731ed317c969b18e",
+    "inputTokens": [
+      {
+        "id": "0x4200000000000000000000000000000000000006",
+        "symbol": "WETH"
+      },
+      {
+        "id": "0x70e6849083b276cc276f5d36313fa093fe0402cc",
+        "symbol": "StaYoung"
+      }
+    ],
+    "totalValueLockedUSD": "0"
+  },
+  {
+    "id": "0x21bd80196c2efbce1d01ad4fa5fbb2a18bd6dcd7",
+    "inputTokens": [
+      {
+        "id": "0x324943a217abf8d1664c54458115b08d9e3c20ab",
+        "symbol": "photo_2023-01-09_23-27-43"
+      },
+      {
+        "id": "0x4200000000000000000000000000000000000006",
+        "symbol": "WETH"
+      }
+    ],
+    "totalValueLockedUSD": "0"
+  },
+  {
+    "id": "0x5e6ae1b060cba3d489049b4253189c86d9bfa797",
+    "inputTokens": [
+      {
+        "id": "0x3c911003f31de836b7cce934ca23f585986761ad",
+        "symbol": "SYMB"
+      },
+      {
+        "id": "0x4200000000000000000000000000000000000006",
+        "symbol": "WETH"
+      }
+    ],
+    "totalValueLockedUSD": "0"
+  },
+  {
+    "id": "0x31ac14b1644a951a3c4843ea7402b5a22ba969ec",
+    "inputTokens": [
+      {
+        "id": "0x4200000000000000000000000000000000000006",
+        "symbol": "WETH"
+      },
+      {
+        "id": "0x694742823172663044529fa2ab852f80cedd9bda",
+        "symbol": "strever"
+      }
+    ],
+    "totalValueLockedUSD": "0"
+  },
+  {
+    "id": "0x6e7bc24732f794e73ddb8fb25cca9856ac369589",
+    "inputTokens": [
+      {
+        "id": "0x4200000000000000000000000000000000000006",
+        "symbol": "WETH"
+      },
+      {
+        "id": "0x61f468ff0a32db1a33c78abd7c6af005a1a8cee4",
+        "symbol": "ROGI - MAGIC EDEN"
+      }
+    ],
+    "totalValueLockedUSD": "0"
+  },
+  {
+    "id": "0xe0eaac0c177f779fbbfd522a36502a9243492a9d",
+    "inputTokens": [
+      {
+        "id": "0x4200000000000000000000000000000000000006",
+        "symbol": "WETH"
+      },
+      {
+        "id": "0x789e1d860018f4a0fe6f6386ced0d623f148e028",
+        "symbol": "wild and free in alaska"
+      }
+    ],
+    "totalValueLockedUSD": "0"
+  },
+  {
+    "id": "0x07366ed36d973a357c4780359609a20b11c7c210",
+    "inputTokens": [
+      {
+        "id": "0x7f65323e468939073ef3b5287c73f13951b0ff5b",
+        "symbol": "BLUE"
+      },
+      {
+        "id": "0xac1bd2486aaf3b5c0fc3fd868558b082a531b2b4",
+        "symbol": "TOSHI"
+      }
+    ],
+    "totalValueLockedUSD": "6040.876100663114137595510583972735"
+  }
+]
