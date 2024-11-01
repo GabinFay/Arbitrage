@@ -1,61 +1,41 @@
-const { ethers } = require("ethers");
+const { ethers } = require("hardhat");
+const fs = require('fs');
+
 require('dotenv').config();
 
-// ApeChain provider and contract details
-const providerUrl = "https://apechain.calderachain.xyz"; // ApeChain RPC URL
-const apeTokenAddress = process.env.APECHAIN_APE;
-const wapeTokenAddress = process.env.APECHAIN_WAPE;
-const apeAbi = [
-    "function balanceOf(address owner) view returns (uint256)",
-    "function approve(address spender, uint256 amount) returns (bool)",
-    "function transfer(address to, uint256 amount) returns (bool)"
-];
-const wapeAbi = [
-    "function balanceOf(address owner) view returns (uint256)",
-    "function wrap(uint256 amount) returns (bool)",
-    "function unwrap(uint256 amount) returns (bool)"
-];
+// Load WAPE ABI
+const wapeAbi = JSON.parse(fs.readFileSync('abis/wape_apechain.json'));
 
-// User's private key (never expose this in production code; use a secure method to handle private keys)
-const privateKey = process.env.PRIVATE_KEY_MAIN;
+async function main() {
+    const [signer] = await ethers.getSigners();
+    const amount = ethers.parseEther("0.01"); // 1 APE
 
-// Initialize provider and signer
-const provider = new ethers.providers.JsonRpcProvider(providerUrl);
-const wallet = new ethers.Wallet(privateKey, provider);
-
-async function wrapApeToWape(amountToWrap) {
-  try {
-    // Initialize the ApeCoin contract
-    const apeContract = new ethers.Contract(apeTokenAddress, apeAbi, wallet);
+    // Get native APE balance
+    const nativeBalance = await ethers.provider.getBalance(signer.address);
+    console.log(`Native APE Balance: ${ethers.formatEther(nativeBalance)} APE`);
     
-    // Check the APE balance of the user
-    const balance = await apeContract.balanceOf(wallet.address);
-    if (balance.lt(amountToWrap)) {
-      console.error("Insufficient APE balance");
-      return;
-    }
-    
-    // Inifinite approval for speeed & feee reduction
-    
-    // // Approve the WAPE contract to spend user's APE
-    // const approveTx = await apeContract.approve(wapeTokenAddress, MAX_UINT256);
-    // await approveTx.wait();
-    // console.log("APE approved for wrapping");
+    // Initialize WAPE contract
+    const wapeContract = new ethers.Contract(
+        process.env.APECHAIN_WAPE,
+        wapeAbi,
+        signer
+    );
 
-    // Initialize the WAPE contract
-    const wapeContract = new ethers.Contract(wapeTokenAddress, wapeAbi, wallet);
+    console.log(`Wrapping ${ethers.formatEther(amount)} native APE to WAPE...`);
 
-    // Call the wrap function on the WAPE contract
-    const wrapTx = await wapeContract.wrap(amountToWrap);
+    // Wrap native APE to WAPE by sending directly to the contract
+    const wrapTx = await signer.sendTransaction({
+        to: process.env.APECHAIN_WAPE,
+        value: amount
+    });
     await wrapTx.wait();
-    console.log(`Successfully wrapped ${amountToWrap.toString()} APE to WAPE`);
-  } catch (error) {
-    console.error("Error wrapping APE to WAPE:", error);
-  }
+
+    console.log(`Successfully wrapped ${ethers.formatEther(amount)} APE to WAPE`);
 }
 
-// Amount to wrap (replace with desired amount in Wei)
-const amount = ethers.utils.parseUnits("1", 18); // 1 APE
-
-// Execute the wrap function
-wrapApeToWape(amount);
+main()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error);
+        process.exit(1);
+    });

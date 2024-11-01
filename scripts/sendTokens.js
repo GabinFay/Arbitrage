@@ -27,7 +27,7 @@ async function main() {
     const [signer] = await ethers.getSigners();
     
     const oft = new ethers.Contract(
-        process.env.ARBITRUM_APE,
+        process.env.ARBITRUM_APE_LZ,
         apeAbi,
         signer
     );

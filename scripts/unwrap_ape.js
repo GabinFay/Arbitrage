@@ -1,41 +1,38 @@
-const { ethers } = require("ethers");
+const { ethers } = require("hardhat");
+const fs = require('fs');
+
 require('dotenv').config();
 
-// ApeChain provider and contract details
-const providerUrl = "https://apechain.calderachain.xyz";
-const wapeTokenAddress = process.env.APECHAIN_WAPE;
-const wapeAbi = [/* ... ABI for Wrapped ApeCoin contract ... */];
+// Load WAPE ABI
+const wapeAbi = JSON.parse(fs.readFileSync('abis/wape_apechain.json'));
 
-// User's private key from .env
-const privateKey = process.env.PRIVATE_KEY_MAIN;
+async function main() {
+    const [signer] = await ethers.getSigners();
+    const amount = ethers.parseEther("0.01"); // 1 APE
 
-// Initialize provider and signer
-const provider = new ethers.providers.JsonRpcProvider(providerUrl);
-const wallet = new ethers.Wallet(privateKey, provider);
+    // Initialize WAPE contract
+    const wapeContract = new ethers.Contract(
+        process.env.APECHAIN_WAPE,
+        wapeAbi,
+        signer
+    );
 
-async function unwrapWapeToApe(amountToUnwrap) {
-  try {
-    // Initialize the WAPE contract
-    const wapeContract = new ethers.Contract(wapeTokenAddress, wapeAbi, wallet);
+    // Get WAPE balance
+    const wapeBalance = await wapeContract.balanceOf(signer.address);
+    console.log(`WAPE Balance: ${ethers.formatEther(wapeBalance)} WAPE`);
 
-    // Check WAPE balance
-    const balance = await wapeContract.balanceOf(wallet.address);
-    if (balance.lt(amountToUnwrap)) {
-      console.error("Insufficient WAPE balance");
-      return;
-    }
+    console.log(`Unwrapping ${ethers.formatEther(amount)} WAPE to native APE...`);
 
-    // Call the unwrap function to convert WAPE back to APE
-    const unwrapTx = await wapeContract.unwrap(amountToUnwrap);
+    // Unwrap WAPE to native APE using the withdraw function
+    const unwrapTx = await wapeContract.withdraw(amount);
     await unwrapTx.wait();
-    console.log(`Successfully unwrapped ${amountToUnwrap.toString()} WAPE to APE`);
-  } catch (error) {
-    console.error("Error unwrapping WAPE to APE:", error);
-  }
+
+    console.log(`Successfully unwrapped ${ethers.formatEther(amount)} WAPE to APE`);
 }
 
-// Amount to unwrap (replace with the desired amount in Wei)
-const amount = ethers.utils.parseUnits("1", 18); // 1 WAPE
-
-// Execute the unwrap function
-unwrapWapeToApe(amount);
+main()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error);
+        process.exit(1);
+    });
