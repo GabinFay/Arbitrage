@@ -23,7 +23,6 @@ async function main() {
     
     const toAddress = process.env.ADDRESS_MAIN;
     const eidB = 30312;
-    const amount = "1.0";
 
     const [signer] = await ethers.getSigners();
     
@@ -33,15 +32,16 @@ async function main() {
         signer
     );
 
-    const decimals = await oft.decimals();
-    const parsedAmount = ethers.parseUnits(amount, decimals);
-    const options = Options.newOptions().addExecutorLzReceiveOption(10000, 0).toBytes();
+    const balance = await oft.balanceOf(signer.address);
+    console.log(`Current balance: ${ethers.formatUnits(balance, await oft.decimals())} tokens`);
+
+    const options = Options.newOptions().addExecutorLzReceiveOption(50000, 0).toBytes();
 
     const sendParam = {
         dstEid: eidB,
         to: addressToBytes32(toAddress),
-        amountLD: parsedAmount,
-        minAmountLD: parsedAmount,
+        amountLD: balance,
+        minAmountLD: balance,
         extraOptions: options,
         composeMsg: ethers.getBytes('0x'),
         oftCmd: ethers.getBytes('0x'),
@@ -52,7 +52,7 @@ async function main() {
   const nativeFee = feeQuote.nativeFee;
 
   console.log(
-    `sending ${amount} token(s) to network ${eidB} (${eidB})`
+    `sending ${ethers.formatUnits(balance, await oft.decimals())} token(s) to network ${eidB} (${eidB})`
   );
 
   const tx = await oft.send(

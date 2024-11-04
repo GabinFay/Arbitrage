@@ -8,7 +8,7 @@ const wapeAbi = JSON.parse(fs.readFileSync('abis/wape_apechain.json'));
 
 async function main() {
     const [signer] = await ethers.getSigners();
-    const amount = ethers.parseEther("0.01"); // 1 APE
+    const amount = ethers.parseEther("1.5"); // 1 APE
 
     // Get native APE balance
     const nativeBalance = await ethers.provider.getBalance(signer.address);
